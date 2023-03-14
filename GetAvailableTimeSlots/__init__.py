@@ -26,7 +26,7 @@ def build_list(rows, field_1, field_2, timeslot,  limit, number_of_people):
 def main(req: func.HttpRequest, availabilities: func.SqlRowList, reservationsKids: func.SqlRowList, reservationsWorkout: func.SqlRowList) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request. In GetAvailableTimeSlots')
 
-    limit_per_hour_kids = 12
+    limit_per_hour_kids = 6
     limit_per_hour_workout = 8
 
     timeslot = req.params.get('timeslot')
