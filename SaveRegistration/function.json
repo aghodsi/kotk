@@ -1,0 +1,49 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "authLevel": "function",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "get",
+        "post"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "$return"
+    },
+    {
+      "name": "reservationCode",
+      "type": "sql",
+      "direction": "in",
+      "commandText": "SELECT TOP (1) [code] FROM [dbo].[reservation_codes] where [used] = 0",
+      "commandType": "Text",
+      "connectionStringSetting": "kotkdbconnstring"
+    },
+    {
+      "name": "reservations",
+      "type": "sql",
+      "direction": "out",
+      "commandText": "dbo.kotk_reservation",
+      "connectionStringSetting": "kotkdbconnstring"
+    },
+    {
+      "name": "fieldReservations",
+      "type": "sql",
+      "direction": "out",
+      "commandText": "dbo.kotk_availability",
+      "connectionStringSetting": "kotkdbconnstring"
+    },
+    {
+      "name": "followCodes",
+      "type": "sql",
+      "direction": "out",
+      "commandText": "dbo.reservation_codes",
+      "connectionStringSetting": "kotkdbconnstring"
+    }
+  ]
+}

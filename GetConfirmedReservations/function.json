@@ -1,0 +1,27 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "authLevel": "function",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "get"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "$return"
+    },
+    {
+      "name": "confirmedReservations",
+      "type": "sql",
+      "direction": "in",
+      "commandText": "select [name], [email] [number_of_people], [field], [timeslot], [followcode], [confirmed], [activity_type] from dbo.kotk_reservation",
+      "commandType": "Text",
+      "connectionStringSetting": "kotkdbconnstring"
+    }
+  ]
+}

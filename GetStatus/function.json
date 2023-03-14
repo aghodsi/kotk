@@ -1,0 +1,28 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "get"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "$return"
+    },
+    {
+      "name": "reservationStatus",
+      "type": "sql",
+      "direction": "in",
+      "commandText": "select [followcode], [activity_type], [number_of_people], [confirmed] from dbo.kotk_reservation",
+      "commandType": "Text",
+      "parameters": "@code = {Query.code}",
+      "connectionStringSetting": "kotkdbconnstring"
+    }
+  ]
+}

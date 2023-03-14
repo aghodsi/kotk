@@ -1,0 +1,47 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "authLevel": "function",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "get"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "$return"
+    },
+    {
+      "name": "availabilities",
+      "type": "sql",
+      "direction": "in",
+      "commandText": "select [field_number], [timeslot] from dbo.kotk_availability where busy = 0",
+      "commandType": "Text",
+      "parameters": "@timeslot = {Query.timeslot}",
+      "connectionStringSetting": "kotkdbconnstring"
+    },
+    {
+      "name": "reservationsKids",
+      "type": "sql",
+      "direction": "in",
+      "commandText": "select [field], [timeslot], [followcode] from dbo.kotk_reservation where activity_type = 'kids'",
+      "commandType": "Text",
+      "parameters": "@timeslot = {Query.timeslot}",
+      "connectionStringSetting": "kotkdbconnstring"
+    }
+    ,
+    {
+      "name": "reservationsWorkout",
+      "type": "sql",
+      "direction": "in",
+      "commandText": "select [field], [timeslot], [followcode] from dbo.kotk_reservation where activity_type = 'workout'",
+      "commandType": "Text",
+      "parameters": "@timeslot = {Query.timeslot}",
+      "connectionStringSetting": "kotkdbconnstring"
+    }
+  ]
+}
