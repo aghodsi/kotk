@@ -3,6 +3,26 @@ import json
 import azure.functions as func
 
 
+def calc_sum(rows):
+    sum = 0
+    for r in rows:
+        sum += r['number_of_people']
+    return sum
+
+def build_list(rows, field_1, field_2, timeslot,  limit, number_of_people):
+    rows = list(map(lambda r: json.loads(r.to_json()), rows))
+    rows_field_one = [x for x in rows if x['timeslot'] == timeslot and x['field'] == field_1]
+    rows_field_two = [x for x in rows if x['timeslot'] == timeslot and x['field'] == field_2]
+    sumTotalPeopleFieldOne = calc_sum(rows_field_one)
+    sumTotalPeopleFieldTwo = calc_sum(rows_field_two)
+
+    availableFieldsList = []
+    if (limit - sumTotalPeopleFieldOne - number_of_people) >=0:
+        availableFieldsList.append({"field_number":field_1})
+    if (limit - sumTotalPeopleFieldTwo - number_of_people) >=0:
+        availableFieldsList.append({"field_number":field_2})
+    return availableFieldsList
+
 def main(req: func.HttpRequest, availabilities: func.SqlRowList, reservationsKids: func.SqlRowList, reservationsWorkout: func.SqlRowList) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request. In GetAvailableTimeSlots')
 
@@ -16,29 +36,19 @@ def main(req: func.HttpRequest, availabilities: func.SqlRowList, reservationsKid
     elif not activityType:
         return func.HttpResponse("You need to provide activity.", status_code=400)
     else:
+        if (activityType == 'kids' or activityType == 'workout') and not req.params.get('numberOfPeople'):
+            return func.HttpResponse("You need to provide the number of people so we can see if the fields are already overpopulated or not.", status_code=400)
         if activityType == 'kids':
-            rows = list(map(lambda r: json.loads(r.to_json()), reservationsKids))
-            rows_field_three = [x for x in rows if x['timeslot'] == timeslot and x['field'] == 3]
-            rows_field_four = [x for x in rows if x['timeslot'] == timeslot and x['field'] == 4]
-            availableFieldsList = []
-            if len(rows_field_three) < limit_per_hour_kids:
-                availableFieldsList.append({"field_number":3})
-            if len(rows_field_four) < limit_per_hour_kids:
-                availableFieldsList.append({"field_number":4})
+            number_of_people_requested = req.params.get('numberOfPeople')
+            availableFieldsList = build_list(reservationsKids, '3', '4', timeslot, limit_per_hour_kids, int(number_of_people_requested))
             return func.HttpResponse(
                 json.dumps(availableFieldsList),
                 status_code=200,
                 mimetype="application/json"
             ) 
         elif activityType == 'workout':
-            rows = list(map(lambda r: json.loads(r.to_json()), reservationsWorkout))
-            rows_field_one = [x for x in rows if x['timeslot'] == timeslot and x['field'] == 1]
-            rows_field_two = [x for x in rows if x['timeslot'] == timeslot and x['field'] == 2]
-            availableFieldsList = []
-            if len(rows_field_one) < limit_per_hour_workout:
-                availableFieldsList.append({"field_number":1})
-            if len(rows_field_two) < limit_per_hour_workout:
-                availableFieldsList.append({"field_number":2})
+            number_of_people_requested = req.params.get('numberOfPeople')
+            availableFieldsList = build_list(reservationsWorkout, '1', '2', timeslot, limit_per_hour_workout, int(number_of_people_requested))
             return func.HttpResponse(
                 json.dumps(availableFieldsList),
                 status_code=200,
@@ -54,3 +64,4 @@ def main(req: func.HttpRequest, availabilities: func.SqlRowList, reservationsKid
                 status_code=200,
                 mimetype="application/json"
             ) 
+
