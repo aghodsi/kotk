@@ -27,7 +27,7 @@ def main(req: func.HttpRequest, availabilities: func.SqlRowList, reservationsKid
     logging.info('Python HTTP trigger function processed a request. In GetAvailableTimeSlots')
 
     limit_per_hour_kids = 12
-    limit_per_hour_workout = 12
+    limit_per_hour_workout = 8
 
     timeslot = req.params.get('timeslot')
     activityType = req.params.get('activityType')
