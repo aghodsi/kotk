@@ -1,0 +1,33 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "name": "mytimer",
+      "type": "timerTrigger",
+      "direction": "in",
+      "schedule": "0 0 0 * * *"
+    },
+    {
+      "name": "unconfirmedReservations",
+      "type": "sql",
+      "direction": "in",
+      "commandText": "select [name], [email], [number_of_people], [field], [timeslot], [followcode], [confirmed], [expired], [activity_type], [created_date] from dbo.kotk_reservation where [confirmed] = 0 and [expired] = 0",
+      "commandType": "Text",
+      "connectionStringSetting": "kotkdbconnstring"
+    },
+    {
+      "name": "fieldAvailability",
+      "type": "sql",
+      "direction": "out",
+      "commandText": "dbo.kotk_availability",
+      "connectionStringSetting": "kotkdbconnstring"
+    },
+    {
+      "name": "reservationExpired",
+      "type": "sql",
+      "direction": "out",
+      "commandText": "dbo.kotk_reservation",
+      "connectionStringSetting": "kotkdbconnstring"
+    }
+  ]
+}

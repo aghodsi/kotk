@@ -19,7 +19,7 @@
       "name": "reservationStatus",
       "type": "sql",
       "direction": "in",
-      "commandText": "select [followcode], [activity_type], [number_of_people], [confirmed] from dbo.kotk_reservation",
+      "commandText": "select [followcode], [activity_type], [number_of_people], [confirmed],[expired] from dbo.kotk_reservation",
       "commandType": "Text",
       "parameters": "@code = {Query.code}",
       "connectionStringSetting": "kotkdbconnstring"

@@ -19,7 +19,7 @@
       "name": "confirmedReservations",
       "type": "sql",
       "direction": "in",
-      "commandText": "select [name], [email], [number_of_people], [field], [timeslot], [followcode], [confirmed], [activity_type] from dbo.kotk_reservation",
+      "commandText": "select [name], [email], [number_of_people], [field], [timeslot], [followcode], [confirmed],[expired], [activity_type], [created_date] from dbo.kotk_reservation",
       "commandType": "Text",
       "connectionStringSetting": "kotkdbconnstring"
     }
