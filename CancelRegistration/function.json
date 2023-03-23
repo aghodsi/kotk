@@ -1,0 +1,42 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "authLevel": "function",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "get",
+        "post"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "$return"
+    },
+    {
+      "name": "fieldReservations",
+      "type": "sql",
+      "direction": "out",
+      "commandText": "dbo.kotk_reservation",
+      "connectionStringSetting": "kotkdbconnstring"
+    },
+    {
+      "name": "fieldAvailabilityOut",
+      "type": "sql",
+      "direction": "out",
+      "commandText": "dbo.kotk_availability",
+      "connectionStringSetting": "kotkdbconnstring"
+    },
+    {
+      "name": "fieldAvailabilityIn",
+      "type": "sql",
+      "direction": "in",
+      "commandText": "select [field_number], [timeslot], [followcode] from dbo.kotk_availability",
+      "commandType": "Text",
+      "connectionStringSetting": "kotkdbconnstring"
+    }
+  ]
+}

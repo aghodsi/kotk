@@ -11,8 +11,8 @@ def calc_sum(rows):
 
 def build_list(rows, field_1, field_2, timeslot,  limit, number_of_people):
     rows = list(map(lambda r: json.loads(r.to_json()), rows))
-    rows_field_one = [x for x in rows if x['timeslot'] == timeslot and x['field'] == field_1]
-    rows_field_two = [x for x in rows if x['timeslot'] == timeslot and x['field'] == field_2]
+    rows_field_one = [x for x in rows if x['timeslot'] == timeslot and x['field'] == field_1 and not x['expired'] and not x['cancelled']]
+    rows_field_two = [x for x in rows if x['timeslot'] == timeslot and x['field'] == field_2 and not x['expired'] and not x['cancelled']]
     sumTotalPeopleFieldOne = calc_sum(rows_field_one)
     sumTotalPeopleFieldTwo = calc_sum(rows_field_two)
 
