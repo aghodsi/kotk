@@ -28,17 +28,17 @@
       "name": "reservationsKids",
       "type": "sql",
       "direction": "in",
-      "commandText": "select [field], [timeslot], [number_of_people], [followcode] from dbo.kotk_reservation where activity_type = 'kids'",
+      "commandText": "select [field], [timeslot], [number_of_people], [followcode], [expired], [cancelled] from dbo.kotk_reservation where activity_type = 'kids'",
       "commandType": "Text",
       "parameters": "@timeslot = {Query.timeslot}",
       "connectionStringSetting": "kotkdbconnstring"
     }
     ,
-    {
+    { 
       "name": "reservationsWorkout",
       "type": "sql",
       "direction": "in",
-      "commandText": "select [field], [timeslot], [number_of_people] ,[followcode] from dbo.kotk_reservation where activity_type = 'workout'",
+      "commandText": "select [field], [timeslot], [number_of_people], [followcode], [expired], [cancelled] from dbo.kotk_reservation where activity_type = 'workout'",
       "commandType": "Text",
       "parameters": "@timeslot = {Query.timeslot}",
       "connectionStringSetting": "kotkdbconnstring"

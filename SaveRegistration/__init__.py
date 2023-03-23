@@ -11,6 +11,8 @@ def main(req: func.HttpRequest, reservationCode: func.SqlRowList, reservations: 
         req_body = req.get_json()
         req_body['followcode'] = reservationCode.data[0].get('code')
         req_body['confirmed'] = 0
+        req_body['expired'] = 0
+        req_body['cancelled'] = 0
         # reservationRow = func.SqlRowList(map(lambda r: func.SqlRow.from_dict(r), req_body))
         reservationRow = func.SqlRow.from_dict(req_body)
 
